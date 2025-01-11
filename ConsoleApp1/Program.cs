@@ -6,67 +6,77 @@ namespace ConsoleApp1
 //zajecia 11.01.2025
 {
     //zad.1
-    class Ksiazka
+    public class Ksiazka
     {
-        public string Gatunek;
-        public int RokWydania;
+        public string Gatunek { get; set; }
+        public int RokWydania { get; set; }
 
-        public Ksiazka()
+        // Konstruktor
+        public Ksiazka(string gatunek, int rokWydania)
         {
-            Gatunek = "Nieznany";
-            RokWydania = 0;
+            Gatunek = gatunek;
+            RokWydania = rokWydania;
         }
-        
-         
-     }
+
+        // Metoda do wyświetlania informacji o książce
+        public void WyswietlInformacje()
+        {
+            Console.WriteLine($"Gatunek: {Gatunek}, Rok wydania: {RokWydania}");
+        }
+    }
 
     //zad.2
-    class Produkt
-    { public string Nazwa {  get; set; }
-        public float Cena { get; set; }
+    public class Produkt
+    {
+        public string Nazwa { get; set; }
+        public decimal Cena { get; set; }
 
-        public Produkt(string nazwa, decimal cena) 
+        // Konstruktor
+        public Produkt(string nazwa, decimal cena)
         {
             Nazwa = nazwa;
             Cena = cena;
-        
-        
         }
+
         public override string ToString()
         {
-            return $"{Nazwa}: {Cena}";
+            return $"{Nazwa}: {Cena} PLN";
         }
-
     }
 
-    class Koszyk
+    public class Koszyk
     {
-        public List<Produkt> Produkty { get; private set; }
-        public decimal SumaCen {  get; private set; }
+        private List<Produkt> produkty;
+        public decimal SumaCen { get; private set; }
 
+        // Konstruktor
         public Koszyk(List<Produkt> produkty)
         {
-            Produkty = produkty;
+            this.produkty = produkty;
             SumaCen = ObliczSumeCen();
         }
 
+        // Metoda do obliczania sumy cen produktów
         private decimal ObliczSumeCen()
         {
             decimal suma = 0;
-            foreach (var produkt in Produkty)
+            foreach (var produkt in produkty)
             {
                 suma += produkt.Cena;
             }
             return suma;
         }
 
-        public override string ToString()
+        public void WyswietlProdukty()
         {
-            string produktyStr = string.Join(Environment.NewLine, Produkty);
-            return $"Produkty w koszyku: \n{produktyStr}\n Suma cen: {SumaCen} PLN";
+            Console.WriteLine("Produkty w koszyku:");
+            foreach (var produkt in produkty)
+            {
+                Console.WriteLine(produkt);
+            }
+            Console.WriteLine($"Suma cen: {SumaCen} PLN");
         }
-
-     }
+    }
 
     //zad.3
     public class Klient
@@ -170,16 +180,27 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //zad.1 cd.
-            Ksiazka mojaKsiazka = new Ksiazka();
-            Console.WriteLine($"Gatunek: {mojaKsiazka.Gatunek} , Rok wydania: {mojaKsiazka.RokWydania}");
+
+            // Tworzenie instancji klasy Ksiazka
+            Ksiazka ksiazka = new Ksiazka("Fantastyka", 2021);
+
+            // Wyswietlanie informacji o ksiazce
+            ksiazka.WyswietlInformacje();
 
             //zad.2 cd
+            // Tworzenie produktow
             Produkt produkt1 = new Produkt("Jabłko", 2.50m);
             Produkt produkt2 = new Produkt("Chleb", 3.00m);
             Produkt produkt3 = new Produkt("Mleko", 2.20m);
 
-            Koszyk koszyk = new Koszyk(new List<Produkt> { produkt1, produkt2, produkt3 });
-            Console.WriteLine(koszyk);
+            // Tworzenie listy produktow
+            List<Produkt> listaProduktow = new List<Produkt> { produkt1, produkt2, produkt3 };
+
+            // Tworzenie koszyka
+            Koszyk koszyk = new Koszyk(listaProduktow);
+
+            // Wyswietlanie produktw i sumy cen
+            koszyk.WyswietlProdukty();
 
             //zad.3 cd.
             Sklep sklep = new Sklep(3);
@@ -197,18 +218,18 @@ namespace ConsoleApp1
             sklep.WyswietlKlientow();
             Console.WriteLine($"Liczba klientow: {sklep.LiczbaKlientow}");
 
-        //zad.4 cd
-        Point punkt1 = new Point(6.0, 9.0);
+            //zad.4 cd
+            Point punkt1 = new Point(6.0, 9.0);
 
-        //generowanie "losowych" wspolrzednych 2 pkt
-        Random random = new Random();
-        double losowyX = random.NextDouble() * 10;
-        double losowyY = random.NextDouble() * 10;
-        Point punkt2 = new Point(losowyX, losowyY);
+            //generowanie "losowych" wspolrzednych 2 pkt
+            Random random = new Random();
+            double losowyX = random.NextDouble() * 10;
+            double losowyY = random.NextDouble() * 10;
+            Point punkt2 = new Point(losowyX, losowyY);
 
-        //obl odleglosci
-        double odleglosc = punkt1.OblOdleglosc(punkt2);
-        Console.WriteLine($"Odleglosc miedzy punktami: {odleglosc}");
+            //obl odleglosci
+            double odleglosc = punkt1.OblOdleglosc(punkt2);
+            Console.WriteLine($"Odleglosc miedzy punktami: {odleglosc}");
 
 
 
